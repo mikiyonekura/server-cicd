@@ -4,12 +4,13 @@ name: Python application
 # GitHubのpushイベントをトリガー設定
 on: [push]
 
+# jobを設定している。
 jobs:
   build:
-  
-  runs-on: ubuntu-latest
-
-  steps:
+    # ubuntu-latestシステムで、workflowが実行される
+    runs-on: ubuntu-latest
+    # workflowを設定している
+    steps:
     
     # ubuntu-latestのレポジトリをチェックしている
     - uses: actions/checkout@v2
