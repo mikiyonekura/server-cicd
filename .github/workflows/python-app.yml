@@ -1,0 +1,40 @@
+# workflowの名前が、python applicationであることを宣言
+name: Python application
+
+# GitHubのpushイベントをトリガー設定
+on: [push]
+
+# jobを設定している。
+jobs:
+  build:
+    # ubuntu-latestシステムで、workflowが実行される
+    runs-on: ubuntu-latest
+　　 
+    # workflowを設定している
+    steps:
+    
+    # ubuntu-latestのレポジトリをチェックしている
+    - uses: actions/checkout@v2
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.8
+    # pythonアップデートとrequirements.txtのインストールが実行されるよう設定
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+　　# pythonのsytaxエラーやコードエラーをチェックするためのソフトウェア
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+　　 # ユニットテストを実行するため、pytestをインストール・実行。こうすることで、GitHubレポジトリで新しいpushがある度に、pytestによるユニットテストでチェックする。
+    - name: Test with pytest
+      run: |
+        pip install pytest
+        export PYTHONPATH=src
+        pytest
