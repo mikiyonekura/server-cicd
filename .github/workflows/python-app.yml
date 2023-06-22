@@ -8,10 +8,9 @@ on: [push]
 jobs:
   build:
     # ubuntu-latestシステムで、workflowが実行される
-    runs-on: ubuntu-latest
-　　 
-    # workflowを設定している
-    steps:
+  runs-on: ubuntu-latest
+
+  steps:
     
     # ubuntu-latestのレポジトリをチェックしている
     - uses: actions/checkout@v2
@@ -24,7 +23,6 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install -r requirements.txt
-　　# pythonのsytaxエラーやコードエラーをチェックするためのソフトウェア
     - name: Lint with flake8
       run: |
         pip install flake8
